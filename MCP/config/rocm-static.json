@@ -1,0 +1,142 @@
+{
+  "name": "rocm-static-analysis",
+  "version": "0.1.0",
+  "roots": [
+    "/home/limonene/ROCm-project/WD-Black/ROCm-repos/MIOpen",
+    "/home/limonene/ROCm-project/WD-Black/ROCm-repos/rocMLIR",
+    "/home/limonene/ROCm-project/WD-Black/ROCm-repos/rocm-systems",
+    "/home/limonene/ROCm-project/WD-Black/ROCm-repos/TheRock",
+    "/home/limonene/ROCm-project/WD-Black/ROCm-repos/rocBLAS",
+    "/home/limonene/ROCm-project/WD-Black/ROCm-repos/Tensile"
+  ],
+  "repoAliases": {
+    "miopen": "/home/limonene/ROCm-project/WD-Black/ROCm-repos/MIOpen",
+    "rocmlir": "/home/limonene/ROCm-project/WD-Black/ROCm-repos/rocMLIR",
+    "therock": "/home/limonene/ROCm-project/WD-Black/ROCm-repos/TheRock",
+    "rocblas": "/home/limonene/ROCm-project/WD-Black/ROCm-repos/rocBLAS",
+    "tensile": "/home/limonene/ROCm-project/WD-Black/ROCm-repos/Tensile",
+    "rocm-systems": "/home/limonene/ROCm-project/WD-Black/ROCm-repos/rocm-systems"
+  },
+  "repoMeta": {
+    "miopen": {
+      "status": "active",
+      "role": "solver-selection"
+    },
+    "rocmlir": {
+      "status": "active",
+      "role": "mlir-backend"
+    },
+    "therock": {
+      "status": "active",
+      "role": "build-integration"
+    },
+    "rocblas": {
+      "status": "active",
+      "role": "gemm-backend"
+    },
+    "tensile": {
+      "status": "active",
+      "role": "gemm-codegen"
+    },
+    "rocm-systems": {
+      "status": "active",
+      "role": "runtime-systems"
+    },
+    "llvm-project": {
+      "status": "reference",
+      "role": "compiler-base"
+    }
+  },
+  "tools": {
+    "grep_code": {
+      "enabled": true,
+      "maxResults": 200
+    },
+    "find_symbols": {
+      "enabled": true
+    },
+    "build_ctags": {
+      "enabled": true,
+      "output": "tags"
+    },
+    "query_ctags": {
+      "enabled": true
+    },
+    "build_cscope": {
+      "enabled": true,
+      "output": "cscope.out"
+    },
+    "query_cscope": {
+      "enabled": true
+    },
+    "find_compile_commands": {
+      "enabled": true
+    },
+    "ast_dump": {
+      "enabled": false,
+      "maxFiles": 3,
+      "requireCompileCommands": true
+    },
+    "collect_hub_points": {
+      "enabled": false
+    }
+  },
+  "policies": {
+    "allowWriteOutsideCache": false,
+    "allowCacheWrite": true,
+    "cacheDir": ".cache/mcp-rocm-static",
+    "allowDelete": false,
+    "allowOutsideRoots": false,
+    "maxFileReadBytes": 262144
+  },
+  "scanPolicy": {
+    "excludeDirs": [
+      "build",
+      ".git",
+      ".cache",
+      "dist",
+      "out",
+      "third_party",
+      "__pycache__"
+    ],
+    "includeGlobs": [
+      "*.cpp",
+      "*.hpp",
+      "*.h",
+      "*.c",
+      "*.cc",
+      "*.cmake",
+      "CMakeLists.txt",
+      "*.py",
+      "*.rst",
+      "*.yaml",
+      "*.yml",
+      "*.td"
+    ]
+  },
+  "defaults": {
+    "preferredLanguages": [
+      "cpp",
+      "c",
+      "cmake",
+      "python",
+      "rst",
+      "yaml"
+    ],
+    "hubFunctions": [
+      "IsApplicable",
+      "IsXdlopsSupport",
+      "GetSolution",
+      "FindCore",
+      "SolverContainer",
+      "miirCreateHandle",
+      "MiirIsConfigApplicable",
+      "RockEnabled",
+      "CallHipBlas",
+      "BuildCodeObjectInMemory",
+      "parseConvConfig",
+      "buildKernelPipeline",
+      "isApplicable"
+    ]
+  }
+}
