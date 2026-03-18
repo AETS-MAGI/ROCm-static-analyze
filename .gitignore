@@ -1,3 +1,10 @@
 *.venv*
 .venv
 *tmp
+*.env
+.env*
+MCP/node_modules/
+MCP/dist/
+MCP/.cache/
+*.tsbuildinfo
+.cache/

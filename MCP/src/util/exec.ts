@@ -27,7 +27,7 @@ export async function commandExists(command: string): Promise<boolean>
 {
   try
   {
-    await execFileSafe("bash", ["-lc", `command -v ${command}`]);
+    await execFileSafe("which", [command]);
     return true;
   }
   catch

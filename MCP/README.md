@@ -372,6 +372,35 @@ LLVM 系 clone を追加する場合は `roots` だけでなく `repoAliases` / 
 
 ---
 
+## 個別ファイル open 系ツール追加前の必須対応
+
+> **新しいツール（`ast_dump` 等）で個別ファイルを open する前に、必ず以下を対処すること。**
+
+### isSubpath の symlink 未展開問題
+
+現在の `isSubpath`（`src/util/fs.ts`）は `path.resolve` を使っており、symlink を展開しない。
+ソースツリー内に root 外を指す symlink が存在した場合、パス文字列チェックは通過するが
+OS が実際にアクセスするファイルは root 外になりうる。
+
+```ts
+// 現状: path.resolve のみ（symlink 展開なし）
+const normalizedBase = path.resolve(base);
+const normalizedTarget = path.resolve(target);
+```
+
+**対処**: 個別ファイルを open する前に `fs.realpath()` で symlink を展開してから `isSubpath` に渡すこと。
+
+```ts
+// 個別ファイル open 前の必須パターン
+import { realpath } from "node:fs/promises";
+const real = await realpath(target);
+if (!isSubpath(real, resolved.rootPath)) throw new Error("Outside root");
+```
+
+**現状は安全な理由**: 現行の 7 ツール（`grep_code` / `find_symbols` / `build_ctags` / `query_ctags` / `build_cscope` / `query_cscope` / `find_compile_commands`）は rg / ctags / cscope にルートディレクトリを渡すだけで個別ファイルを open しない。かつ rg・ctags はデフォルトで symlink をたどらない。`resolveRepoFile` は定義済みだが現在どのツールからも呼ばれていない。
+
+---
+
 ## LLVM clone を使う場合の注意
 
 - LLVM/MLIR 基盤の clone は **構文・pass・dialect の理解補助** に使う

@@ -60,7 +60,7 @@ export async function findSymbols(loaded: LoadedConfig, args: FindSymbolsArgs)
       return {
         file: match[1].replace(`${resolved.rootPath}/`, ""),
         line: Number(match[2]),
-        kind: classifyLine(text),
+        heuristic_kind: classifyLine(text),
         text,
       };
     })
